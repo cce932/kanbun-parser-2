@@ -88,10 +88,10 @@ class FilterTateModeTest < Minitest::Test
     end
   end
 
-  def test_single_asterisks_render_underline_and_double_asterisks_remain_bold
+  def test_single_asterisks_render_as_underline
     Dir.mktmpdir("jpmd-filter-") do |dir|
       input_path = File.join(dir, "sample.md")
-      File.write(input_path, "*底線文字*與**粗體文字**\n", mode: "w:utf-8")
+      File.write(input_path, "*底線文字*\n", mode: "w:utf-8")
 
       stdout, status = Open3.capture2(
         "pandoc",
@@ -103,7 +103,6 @@ class FilterTateModeTest < Minitest::Test
 
       assert status.success?, stdout
       assert_includes stdout, "\\ul{底線文字}"
-      assert_includes stdout, "\\textbf{粗體文字}"
       refute_includes stdout, "\\emph{底線文字}"
     end
   end

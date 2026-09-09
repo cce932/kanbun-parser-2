@@ -116,10 +116,10 @@ jpmd:
 
 ### 文字底線與段首縮排
 
-本專案將 Markdown 的單星號語法定義為底線；雙星號仍然表示粗體：
+本專案將 Markdown 的單星號語法定義為底線：
 
 ```markdown
-這是*底線文字*，這是**粗體文字**。
+這是*底線文字*。
 ```
 
 段首縮排由 `jpmd.layout.paragraph.first_line_indent` 控制，預設為一個全形字寬：
@@ -131,7 +131,9 @@ jpmd:
       first_line_indent: 1zw
 ```
 
-普通段落會自動套用縮排。在特定段落前加入 `\noindent`，可以只取消該段落的段首空白。完整範例見 `examples/text-styles.md`。
+普通段落會自動套用縮排。在特定段落前加入 `\noindent`，可以只取消該段落的段首空白。
+
+Markdown 中連續的空白行只會換段，不會產生額外的可見間距。需要用空白分節時，可將 `\vspace{\baselineskip}` 獨立放在兩段之間，空出一個行高。完整範例見 `examples/text-styles.md`。
 
 ## 專案內安裝（macOS / Linux）
 
