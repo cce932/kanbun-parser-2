@@ -155,9 +155,9 @@ end
 local function normalize_spaces(str)
   return tostring(str or "")
     :gsub(string.char(194, 160), " ")
-    :gsub("%s+", " ")
-    :gsub("^%s+", "")
-    :gsub("%s+$", "")
+    :gsub("[ \t\r\n\f\v]+", " ")
+    :gsub("^[ \t\r\n\f\v]+", "")
+    :gsub("[ \t\r\n\f\v]+$", "")
 end
 
 local function volume_page_locator(suffix)
@@ -189,7 +189,7 @@ local function inlines_from_text(text)
   local inlines = {}
   local first = true
 
-  for word in normalize_spaces(text):gmatch("%S+") do
+  for word in normalize_spaces(text):gmatch("[^ \t\r\n\f\v]+") do
     if not first then
       table.insert(inlines, pandoc.Space())
     end
