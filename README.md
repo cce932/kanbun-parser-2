@@ -63,7 +63,7 @@ Build options:
 
 ### 自定義格式
 
-本編譯系統支援以文件內 yaml 為主的格式調整，支援調整邊界、每行字數、每頁字數、漢文標記尺寸與偏移，預設如下。
+本編譯系統支援以文件內 yml 為主的格式調整，支援調整邊界、每行字數、每頁字數、漢文標記尺寸與偏移，預設如下。
 
 ```
 ---
@@ -227,14 +227,14 @@ Docker 會把 Ruby、Pandoc 與 TeX Live 安裝在 Linux image 內，不會安�
 
 ### Docker 與 `.local/` 的差異
 
-| 項目 | `.local/` | Dockerfile |
-| --- | --- | --- |
-| 執行環境 | 直接使用 macOS 或 Linux | Ubuntu 24.04 容器 |
-| 依賴位置 | repo 的 `.local/` | Docker image 內的 `/usr/bin` 與 `/opt/texlive` |
-| 主機需求 | Bash、curl、tar、Perl | Docker Desktop 或 Docker Engine |
-| 啟動方式 | `./scripts/build-local.sh` | 建立 image 後進入容器執行 |
-| 目前 TeX Live | 2026 | 2025 |
-| 適合用途 | 日常開發、IDE 除錯 | CI、Linux 重現環境、跨機器執行 |
+| 項目          | `.local/`                  | Dockerfile                                     |
+| ------------- | -------------------------- | ---------------------------------------------- |
+| 執行環境      | 直接使用 macOS 或 Linux    | Ubuntu 24.04 容器                              |
+| 依賴位置      | repo 的 `.local/`          | Docker image 內的 `/usr/bin` 與 `/opt/texlive` |
+| 主機需求      | Bash、curl、tar、Perl      | Docker Desktop 或 Docker Engine                |
+| 啟動方式      | `./scripts/build-local.sh` | 建立 image 後進入容器執行                      |
+| 目前 TeX Live | 2026                       | 2025                                           |
+| 適合用途      | 日常開發、IDE 除錯         | CI、Linux 重現環境、跨機器執行                 |
 
 兩種方式都不會把專案依賴安裝到 macOS global。`.local/` 比較適合日常開發；Docker 提供較一致的 Linux 執行環境。
 
