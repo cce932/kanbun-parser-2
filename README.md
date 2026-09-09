@@ -126,13 +126,35 @@ jpmd:
    ./scripts/setup-local.sh
    ```
 
-2. 編譯 Markdown 文件：
+2. 編譯 Markdown 文件。以下先示範基本編譯，再說明 `--output`、`--tex` 和 `--bibliography` 三個選項：
 
-   ```sh
-   ./scripts/build-local.sh examples/minimal-kanbun.md
-   ./scripts/build-local.sh examples/academic-paper.md --output out/paper.pdf
-   ./scripts/build-local.sh examples/minimal-kanbun.md --tex out/minimal-kanbun.tex
-   ```
+   - 基本編譯會將 PDF 寫入預設位置 `out/<Markdown 檔名>.pdf`：
+
+     ```sh
+     ./scripts/build-local.sh examples/minimal-kanbun.md
+     ```
+
+   - `--output` 用來指定 PDF 的檔名或輸出位置：
+
+     ```sh
+     ./scripts/build-local.sh examples/academic-paper.md --output out/paper.pdf
+     ```
+
+   - `--tex` 會在產生 PDF 的同時保留中間的 LaTeX 檔，適合檢查排版或編譯錯誤：
+
+     ```sh
+     ./scripts/build-local.sh examples/minimal-kanbun.md --tex out/minimal-kanbun.tex
+     ```
+
+   - `--bibliography` 用來指定 CSL JSON 引用資料；Markdown 中的 `[@citation-key]` 會依這份資料轉換：
+
+     ```sh
+     ./scripts/build-local.sh "/你的檔案路徑/article.md" \
+       --bibliography "/你的檔案路徑/library.json" \
+       --output out/article.pdf
+     ```
+
+   這三個選項可以組合使用，例如同時指定 PDF、保留 TeX 並載入引用資料。
 
 3. 使用本地工具執行測試：
 
