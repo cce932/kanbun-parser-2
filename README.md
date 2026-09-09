@@ -156,6 +156,45 @@ jpmd:
 ./scripts/local-exec.sh ruby scripts/run_visual_suite.rb
 ```
 
+## Docker 執行方式
+
+Docker 會把 Ruby、Pandoc 與 TeX Live 安裝在 Linux image 內，不會安裝到 macOS 的 global 環境。目前 Dockerfile 的 TeX Live 路徑是 `x86_64-linux`，因此 Apple Silicon Mac 請指定 `linux/amd64`。
+
+1. 建立 image：
+
+   ```sh
+   docker build --platform linux/amd64 -t kanbun-parser .
+   ```
+
+2. 啟動容器，並將目前 repo 掛載至 `/workspace`：
+
+   ```sh
+   docker run --rm -it --platform linux/amd64 -v "$PWD:/workspace" kanbun-parser
+   ```
+
+3. 在容器內編譯或執行測試：
+
+   ```sh
+   ruby bin/jpmd build examples/minimal-kanbun.md
+   ruby -Itest test/jpmd_config_test.rb
+   ruby -Itest test/jpmd_compiler_test.rb
+   ```
+
+因為 repo 使用 volume 掛載，產生的 PDF 會保留在主機的 `out/`。輸入 `exit` 即可離開並刪除這次容器；建立的 image 仍會保留供下次使用。
+
+### Docker 與 `.local/` 的差異
+
+| 項目 | `.local/` | Dockerfile |
+| --- | --- | --- |
+| 執行環境 | 直接使用 macOS 或 Linux | Ubuntu 24.04 容器 |
+| 依賴位置 | repo 的 `.local/` | Docker image 內的 `/usr/bin` 與 `/opt/texlive` |
+| 主機需求 | Bash、curl、tar、Perl | Docker Desktop 或 Docker Engine |
+| 啟動方式 | `./scripts/build-local.sh` | 建立 image 後進入容器執行 |
+| 目前 TeX Live | 2026 | 2025 |
+| 適合用途 | 日常開發、IDE 除錯 | CI、Linux 重現環境、跨機器執行 |
+
+兩種方式都不會把專案依賴安裝到 macOS global。`.local/` 比較適合日常開發；Docker 提供較一致的 Linux 執行環境。
+
 ## Windows 安裝流程
 
 1. 安裝 `Git` `Ruby` `Pandoc` `TeX Live` （`TeX Live` 需要很長的安裝時間）
