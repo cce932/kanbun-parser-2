@@ -220,5 +220,5 @@ Docker 會把 Ruby、Pandoc 與 TeX Live 安裝在 Linux image 內，不會安�
 ## Windows 安裝流程
 
 1. 安裝 `Git` `Ruby` `Pandoc` `TeX Live` （`TeX Live` 需要很長的安裝時間）
-2. 加入 tex 套件 `C:\texlive\2026\bin\windows\tlmgr.bat install jlreq luatexja titlesec haranoaji lualatex-math selnolig`
+2. 加入 tex 套件 `C:\texlive\2026\bin\windows\tlmgr.bat install jlreq luatexja titlesec haranoaji lualatex-math selnolig lua-ul luacolor`
 3. clone repo `git clone https://github.com/PPKan/kanbun-parser.git`

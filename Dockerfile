@@ -31,7 +31,7 @@ RUN curl -L --fail -o install-tl-2025.tar.gz ${TEXLIVE_REPO}/install-tl-unx.tar.
  && mkdir install-tl \
  && tar -xzf install-tl-2025.tar.gz -C install-tl --strip-components=1 \
  && install-tl/install-tl --profile /tmp/texlive-installer/texlive-2025.profile --repository ${TEXLIVE_REPO} \
- && ${TEXLIVE_DIR}/bin/x86_64-linux/tlmgr install jlreq luatexja titlesec haranoaji lualatex-math selnolig \
+ && ${TEXLIVE_DIR}/bin/x86_64-linux/tlmgr install jlreq luatexja titlesec haranoaji lualatex-math selnolig lua-ul luacolor \
  && rm -rf /tmp/texlive-installer
 
 WORKDIR /workspace

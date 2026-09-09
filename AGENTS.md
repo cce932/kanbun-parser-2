@@ -36,6 +36,8 @@ required_tools:
     - haranoaji
     - lualatex-math
     - selnolig
+    - lua-ul
+    - luacolor
 
 font_rules:
   linux:

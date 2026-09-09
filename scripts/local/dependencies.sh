@@ -16,6 +16,6 @@ JPMD_TEXLIVE_REPOSITORY="${JPMD_TEXLIVE_REPOSITORIES[0]}"
 # tlmgr follows dependencies, so this remains smaller than installing TeX Live
 # collections wholesale while covering the packages used by this project.
 JPMD_TEX_PACKAGES=(
-  jlreq luatexja titlesec haranoaji lualatex-math selnolig kanbun
+  jlreq luatexja titlesec haranoaji lualatex-math selnolig kanbun lua-ul luacolor
   fancyhdr caption footnotehyper xurl
 )
