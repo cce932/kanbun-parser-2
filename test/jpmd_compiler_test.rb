@@ -615,6 +615,8 @@ class JPMDCompilerTest < Minitest::Test
         assert_includes preamble, "\\titleformat{\\subsection}"
         assert_includes preamble, "\\titleformat{\\subsubsection}"
         assert_includes preamble, "\\titleformat{\\paragraph}{\\normalfont\\bfseries}"
+        assert_includes preamble, "\\usepackage{indentfirst}"
+        assert_includes preamble, "\\setlength{\\parindent}{1\\zw}"
         refute_includes preamble, "\\titleformat{\\paragraph}[runin]"
       end
     end

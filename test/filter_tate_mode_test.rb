@@ -88,6 +88,26 @@ class FilterTateModeTest < Minitest::Test
     end
   end
 
+  def test_single_asterisks_render_underline_and_double_asterisks_remain_bold
+    Dir.mktmpdir("jpmd-filter-") do |dir|
+      input_path = File.join(dir, "sample.md")
+      File.write(input_path, "*底線文字*與**粗體文字**\n", mode: "w:utf-8")
+
+      stdout, status = Open3.capture2(
+        "pandoc",
+        input_path,
+        "-f", "markdown+bracketed_spans",
+        "--lua-filter", File.expand_path("../filter.lua", __dir__),
+        "-t", "latex"
+      )
+
+      assert status.success?, stdout
+      assert_includes stdout, "\\ul{底線文字}"
+      assert_includes stdout, "\\textbf{粗體文字}"
+      refute_includes stdout, "\\emph{底線文字}"
+    end
+  end
+
   def test_tables_render_with_inner_rules_only
     Dir.mktmpdir("jpmd-filter-") do |dir|
       input_path = File.join(dir, "sample.md")

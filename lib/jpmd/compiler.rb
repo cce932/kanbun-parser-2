@@ -138,6 +138,7 @@ module JPMD
         side_gap: tex_dimension(kanbun.fetch("side").fetch("gap")),
         side_min_width: tex_dimension(kanbun.fetch("side").fetch("min_width")),
         body_size: tex_dimension(layout.fetch("font").fetch("body_size")),
+        first_line_indent: tex_dimension(@derived.fetch("first_line_indent")),
         writing_mode: @derived.fetch("writing_mode"),
         page_numbers: @derived.fetch("page_numbers"),
         tate_kanbun_kumi: kanbun.fetch("kumi", "beta"),
@@ -386,6 +387,7 @@ module JPMD
           "right=#{margins.fetch("right")}"
         ],
         "jpmd-writing-mode" => @derived.fetch("writing_mode"),
+        "indent" => true,
         "header-includes" => header_includes + [
           "\\input{#{tex_path(preamble_path)}}"
         ]

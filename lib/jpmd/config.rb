@@ -24,6 +24,9 @@ module JPMD
           },
           "font" => {
             "body_size" => "12pt"
+          },
+          "paragraph" => {
+            "first_line_indent" => "1zw"
           }
         },
         "kanbun" => {
@@ -75,6 +78,9 @@ module JPMD
           },
           "font" => {
             "body_size" => "14pt"
+          },
+          "paragraph" => {
+            "first_line_indent" => "1zw"
           }
         },
         "kanbun" => {
@@ -237,6 +243,7 @@ module JPMD
       margins = fetch_hash(layout, "margins")
       grid = fetch_hash(layout, "grid")
       font = fetch_hash(layout, "font")
+      paragraph = fetch_hash(layout, "paragraph")
       kanbun = fetch_hash(settings, "kanbun")
       writing_mode = resolve_writing_mode(layout["writing_mode"])
 
@@ -249,6 +256,8 @@ module JPMD
       characters_per_line = parse_positive_integer(fetch_required(grid, "characters_per_line"), "layout.grid.characters_per_line", minimum: 2)
       lines_per_page = parse_positive_integer(fetch_required(grid, "lines_per_page"), "layout.grid.lines_per_page", minimum: 1)
       page_numbers = parse_boolean(layout.fetch("page_numbers", writing_mode != "tate"), "layout.page_numbers")
+      first_line_indent = fetch_required(paragraph, "first_line_indent")
+      validate_non_negative_dimension(first_line_indent, "layout.paragraph.first_line_indent")
 
       validate_kanbun_dimensions(kanbun)
 
@@ -277,6 +286,7 @@ module JPMD
         "lines_per_page" => lines_per_page,
         "body_size" => fetch_required(font, "body_size"),
         "page_numbers" => page_numbers,
+        "first_line_indent" => first_line_indent,
         "kanjiskip_pt" => kanjiskip_pt,
         "baselineskip_pt" => baselineskip_pt
       }

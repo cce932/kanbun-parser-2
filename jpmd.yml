@@ -13,6 +13,8 @@ presets:
         lines_per_page: 30
       font:
         body_size: 12pt
+      paragraph:
+        first_line_indent: 1zw
     kanbun:
       side:
         gap: 0.10zw

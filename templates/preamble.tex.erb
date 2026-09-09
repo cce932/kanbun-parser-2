@@ -5,6 +5,9 @@
 \newcommand{\jpmdwritingmode}{<%= writing_mode %>}
 
 \usepackage{titlesec}
+\usepackage{indentfirst}
+\setlength{\parindent}{<%= first_line_indent %>}
+\setlength{\parskip}{0pt}
 <% if writing_mode == "tate" %>
 \titleformat{\section}{\normalfont\bfseries\Large}{}{0pt}{}
 \titlespacing*{\section}{0pt}{2\zw}{1\zw}
@@ -17,8 +20,6 @@
 \titleformat{\subparagraph}{\normalfont}{}{0pt}{}
 \titlespacing*{\subparagraph}{0pt}{0.75\zw}{0.5\zw}
 \pagestyle{empty}
-\setlength{\parindent}{1\zw}
-\setlength{\parskip}{0pt}
 \interfootnotelinepenalty=10000
 <% else %>
 \newif\ifjpmdfirstmarkdownsection

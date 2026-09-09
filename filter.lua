@@ -433,6 +433,10 @@ function Table(tbl)
   return pandoc.RawBlock("latex", table.concat(lines, "\n"))
 end
 
+function Emph(emph)
+  return pandoc.Underline(emph.content)
+end
+
 function Span(span)
   if writing_mode == "tate" then
     return nil
@@ -469,6 +473,7 @@ return {
     HorizontalRule = HorizontalRule,
     SoftBreak = SoftBreak,
     Cite = Cite,
+    Emph = Emph,
     Span = Span
   }
 }

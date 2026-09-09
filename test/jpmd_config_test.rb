@@ -134,6 +134,25 @@ class JPMDConfigTest < Minitest::Test
     end
   end
 
+  def test_document_can_override_first_line_indent
+    frontmatter = {
+      "layout" => {
+        "paragraph" => {
+          "first_line_indent" => "0pt"
+        }
+      }
+    }
+
+    with_temp_markdown(frontmatter) do |input_path, config_path|
+      resolved = JPMD::Config.new(
+        input_path: input_path,
+        config_path: config_path
+      ).resolve
+
+      assert_equal "0pt", resolved.fetch("derived").fetch("first_line_indent")
+    end
+  end
+
   def test_document_can_disable_page_numbers
     frontmatter = {
       "layout" => {
