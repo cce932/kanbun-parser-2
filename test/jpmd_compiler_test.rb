@@ -472,11 +472,12 @@ class JPMDCompilerTest < Minitest::Test
     end
   end
 
-  def test_build_copies_pdf_to_transfer_directory
+  def test_build_only_writes_requested_pdf
     with_temp_markdown do |input_path, config_path|
       Dir.mktmpdir("jpmd-transfer-") do |dir|
         output_path = File.join(File.dirname(config_path), "out", "sample.pdf")
-        transfer_dir = File.join(dir, "transfer")
+        copied_paths = []
+        original_copy = FileUtils.method(:cp)
         compiler = JPMD::Compiler.new(
           input_path: input_path,
           config_path: config_path
@@ -492,7 +493,10 @@ class JPMDCompilerTest < Minitest::Test
                 compiler.stub(:run_lualatex, lambda { |tex_path, _workdir|
                   File.write(tex_path.sub(/\.tex\z/, ".pdf"), "pdf", mode: "wb")
                 }) do
-                  compiler.stub(:transfer_directory, transfer_dir) do
+                  FileUtils.stub(:cp, lambda { |source, destination|
+                    copied_paths << destination
+                    original_copy.call(source, destination)
+                  }) do
                     compiler.build
                   end
                 end
@@ -502,12 +506,12 @@ class JPMDCompilerTest < Minitest::Test
         end
 
         assert_equal "pdf", File.binread(output_path)
-        assert_equal "pdf", File.binread(File.join(transfer_dir, "sample.pdf"))
+        assert_equal [output_path], copied_paths
       end
     end
   end
 
-  def test_build_allows_output_path_inside_transfer_directory
+  def test_build_allows_custom_output_directory
     with_temp_markdown do |input_path, config_path|
       Dir.mktmpdir("jpmd-transfer-") do |dir|
         transfer_dir = File.join(dir, "transfer")
@@ -528,9 +532,7 @@ class JPMDCompilerTest < Minitest::Test
                 compiler.stub(:run_lualatex, lambda { |tex_path, _workdir|
                   File.write(tex_path.sub(/\.tex\z/, ".pdf"), "pdf", mode: "wb")
                 }) do
-                  compiler.stub(:transfer_directory, transfer_dir) do
-                    assert_equal output_path, compiler.build
-                  end
+                  assert_equal output_path, compiler.build
                 end
               end
             end

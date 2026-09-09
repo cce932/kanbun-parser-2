@@ -9,9 +9,10 @@ repo:
   primary_goal: compile markdown to PDF with kanbun annotations
 
 entrypoints:
-  cli_unix: ruby bin/jpmd
+  setup_unix: ./scripts/setup-local.sh
+  cli_unix: ./scripts/local-exec.sh ruby bin/jpmd
   cli_windows: .\\bin\\jpmd.cmd
-  visual_suite: ruby scripts/run_visual_suite.rb
+  visual_suite: ./scripts/local-exec.sh ruby scripts/run_visual_suite.rb
 
 examples:
   full_document: examples/academic-paper.md
@@ -63,28 +64,34 @@ environment_variables:
 
 verification:
   tests:
-    - ruby -Itest test/jpmd_config_test.rb
-    - ruby -Itest test/jpmd_compiler_test.rb
-    - ruby -Itest test/jpmd_cli_test.rb
+    - ./scripts/local-exec.sh ruby -Itest test/jpmd_config_test.rb
+    - ./scripts/local-exec.sh ruby -Itest test/jpmd_compiler_test.rb
+    - ./scripts/local-exec.sh ruby -Itest test/jpmd_cli_test.rb
+    - ./scripts/local-exec.sh ruby -Itest test/local_environment_test.rb
   sample_builds_unix:
-    - ruby bin/jpmd build examples/minimal-kanbun.md
-    - ruby bin/jpmd build examples/academic-paper.md
-    - ruby bin/jpmd build examples/two-file-manuscript.md
+    - ./scripts/build-local.sh examples/minimal-kanbun.md
+    - ./scripts/build-local.sh examples/academic-paper.md
+    - ./scripts/build-local.sh examples/two-file-manuscript.md
   config_fixture_builds:
-    - ruby bin/jpmd build test/fixtures/config-default.md
-    - ruby bin/jpmd build test/fixtures/config-inline.md
-    - ruby bin/jpmd build test/fixtures/config-outsourced.md
+    - ./scripts/build-local.sh test/fixtures/config-default.md
+    - ./scripts/build-local.sh test/fixtures/config-inline.md
+    - ./scripts/build-local.sh test/fixtures/config-outsourced.md
     - tracked_snapshots: test/fixtures/pdf
   sample_builds_windows:
     - .\\bin\\jpmd.cmd build .\\examples\\minimal-kanbun.md
     - .\\bin\\jpmd.cmd build .\\examples\\academic-paper.md
     - .\\bin\\jpmd.cmd build .\\examples\\two-file-manuscript.md
   visual_suite:
-    - ruby scripts/run_visual_suite.rb
+    - ./scripts/local-exec.sh ruby scripts/run_visual_suite.rb
     - report_path: out/variation-suite/report.html
 
 operating_notes:
   - run commands from repo root
+  - .local/ contains project tools, gems, downloads, and caches; it is gitignored
+  - local setup supports macOS and Linux; native Windows retains manual setup
+  - dependency policy is scripts/local/dependencies.sh
+  - use local-exec.sh for commands so temporary files and TeX caches stay local
+  - PDF output is not automatically copied to ../transfer/
   - out/ is generated and gitignored
   - tracked fixture PDFs belong in test/fixtures/pdf, not out/
   - project defaults are in jpmd.yml
@@ -97,8 +104,8 @@ operating_notes:
   - visual suite cases are defined in test/variation_suite.yml
 
 failure_triage:
-  missing_pandoc: set PANDOC_PATH or install pandoc on PATH
-  missing_lualatex: set LUALATEX_PATH or install TeX Live 2025
+  missing_pandoc: run ./scripts/setup-local.sh and use ./scripts/build-local.sh
+  missing_lualatex: run ./scripts/setup-local.sh and use ./scripts/build-local.sh
   missing_fonts_linux: verify vendor/fonts or font env vars
   missing_fonts_windows: install Times New Roman and MS Mincho
   latex_failure: set jpmd.output.tex in frontmatter, inspect the emitted tex, and rerun

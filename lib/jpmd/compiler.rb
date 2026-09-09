@@ -15,7 +15,6 @@ module JPMD
     WINDOWS_PANDOC = File.expand_path("~/AppData/Local/Pandoc/pandoc.exe")
     WINDOWS_LUALATEX = "C:/texlive/2025/bin/windows/lualatex.exe"
     APP_ROOT = File.expand_path("../..", __dir__)
-    TRANSFER_DIR = File.expand_path("../transfer", APP_ROOT)
     TIMES_NEW_ROMAN_ENV_VARS = {
       regular: "JPMD_TIMES_NEW_ROMAN_REGULAR",
       bold: "JPMD_TIMES_NEW_ROMAN_BOLD",
@@ -77,7 +76,6 @@ module JPMD
         raise JPMD::CommandError, "Expected PDF was not generated: #{pdf_path}" unless File.file?(pdf_path)
 
         FileUtils.cp(pdf_path, @output_path)
-        copy_output_to_transfer_directory
       end
 
       @output_path
@@ -586,18 +584,6 @@ module JPMD
       content = File.read(@input_path, mode: "r:utf-8").sub(/\A\uFEFF/, "")
       content = content.sub(/\A---\s*\r?\n.*?\r?\n(?:---|\.\.\.)\s*(?:\r?\n|$)/m, "")
       content.lines.reject { |line| line.match?(/\A[ \t]*---[ \t]*(?:\r?\n)?\z/) }.join
-    end
-
-    def copy_output_to_transfer_directory
-      FileUtils.mkdir_p(transfer_directory)
-      destination = File.join(transfer_directory, File.basename(@output_path))
-      return if File.expand_path(@output_path) == File.expand_path(destination)
-
-      FileUtils.cp(@output_path, destination)
-    end
-
-    def transfer_directory
-      TRANSFER_DIR
     end
 
     def pmingliu_altfont_entries(primary_font_path, fallback_source)
