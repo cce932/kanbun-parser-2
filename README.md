@@ -114,6 +114,25 @@ jpmd:
 ```
 
 
+### 文字底線與段首縮排
+
+本專案將 Markdown 的單星號語法定義為底線；雙星號仍然表示粗體：
+
+```markdown
+這是*底線文字*，這是**粗體文字**。
+```
+
+段首縮排由 `jpmd.layout.paragraph.first_line_indent` 控制，預設為一個全形字寬：
+
+```yaml
+jpmd:
+  layout:
+    paragraph:
+      first_line_indent: 1zw
+```
+
+普通段落會自動套用縮排。在特定段落前加入 `\noindent`，可以只取消該段落的段首空白。完整範例見 `examples/text-styles.md`。
+
 ## 專案內安裝（macOS / Linux）
 
 本專案可將 Ruby、Pandoc、LuaLaTeX、TeX 套件、Ruby gems 和快取全部安裝在 `.local/`，不使用 sudo、不修改全域 PATH，也不會使用已安裝在系統上的同名工具。

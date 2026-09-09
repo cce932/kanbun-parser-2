@@ -18,6 +18,7 @@ examples:
   full_document: examples/academic-paper.md
   kanbun_only: examples/minimal-kanbun.md
   citation_document: examples/two-file-manuscript.md
+  text_styles: examples/text-styles.md
   config_default: test/fixtures/config-default.md
   config_inline: test/fixtures/config-inline.md
   config_outsourced: test/fixtures/config-outsourced.md
@@ -74,6 +75,7 @@ verification:
     - ./scripts/build-local.sh examples/minimal-kanbun.md
     - ./scripts/build-local.sh examples/academic-paper.md
     - ./scripts/build-local.sh examples/two-file-manuscript.md
+    - ./scripts/build-local.sh examples/text-styles.md
   config_fixture_builds:
     - ./scripts/build-local.sh test/fixtures/config-default.md
     - ./scripts/build-local.sh test/fixtures/config-inline.md
@@ -103,6 +105,8 @@ operating_notes:
   - default PDF output is out/<input-basename>.pdf unless jpmd.output.pdf overrides it
   - TeX is emitted only when jpmd.output.tex is set in frontmatter
   - kanbun syntax is [BASE]{f=\"...\" o=\"...\" k=\"...\"}
+  - single asterisks render underline: *text*
+  - use \noindent at the start of a paragraph to suppress first-line indentation
   - visual suite cases are defined in test/variation_suite.yml
 
 failure_triage:
