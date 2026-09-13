@@ -114,26 +114,12 @@ jpmd:
 ```
 
 
-### 文字底線與段首縮排
+### 文字與版面樣式
 
-本專案將 Markdown 的單星號語法定義為底線：
+目前專案分為兩個版本，並以專案名稱區分：`kanbun-parser` 代表 Version 1，`kanbun-parser-2` 代表 Version 2。查閱文字與版面樣式時，請依使用的版本參考對應範例：
 
-```markdown
-這是*底線文字*。
-```
-
-段首縮排由 `jpmd.layout.paragraph.first_line_indent` 控制，預設為一個全形字寬：
-
-```yaml
-jpmd:
-  layout:
-    paragraph:
-      first_line_indent: 1zw
-```
-
-普通段落會自動套用縮排。在特定段落前加入 `\noindent`，可以只取消該段落的段首空白。
-
-Markdown 中連續的空白行只會換段，不會產生額外的可見間距。需要用空白分節時，可將 `\vspace{\baselineskip}` 獨立放在兩段之間，空出一個行高。完整範例見 `examples/text-styles.md`。
+- **Version 1（`kanbun-parser`）**：請參閱 [`examples/`](examples/) 目錄下除 `text-styles-v2.md` 以外的其他範例文件。
+- **Version 2（`kanbun-parser-2`）**：請參閱 [`examples/text-styles-v2.md`](examples/text-styles-v2.md)。Version 2 後續新增或調整的樣式會集中更新於此。
 
 ## 專案內安裝（macOS / Linux）
 
