@@ -561,6 +561,16 @@ class JPMDCompilerTest < Minitest::Test
     refute_match(/\\renewenvironment\{quote\}.*?\\divide\\@tempdimb/m, template)
   end
 
+  def test_template_styles_fenced_code_blocks_with_gray_fill_and_border
+    template = File.read(File.join(JPMD::Compiler::APP_ROOT, "template.tex"), mode: "r:utf-8")
+
+    assert_includes template, "\\definecolor{JPMDCodeBackground}{HTML}{F2F2F2}"
+    assert_includes template, "\\definecolor{JPMDCodeBorder}{HTML}{666666}"
+    assert_match(/\\fvset\{.*?frame=single.*?rulecolor=\\color\{JPMDCodeBorder\}.*?fillcolor=\\color\{JPMDCodeBackground\}.*?\}/m, template)
+    assert_match(/\\renewcommand\{\\FancyVerbFormatLine\}.*?\\colorbox\{JPMDCodeBackground\}/m, template)
+    assert_includes template, "\\DefineVerbatimEnvironment{verbatim}{Verbatim}{}"
+  end
+
   def test_template_renders_custom_yaml_title_block
     template = File.read(File.join(JPMD::Compiler::APP_ROOT, "template.tex"), mode: "r:utf-8")
 
@@ -614,7 +624,7 @@ class JPMDCompilerTest < Minitest::Test
         preamble = compiler.send(:render_preamble)
         assert_includes preamble, "\\titleformat{\\subsection}"
         assert_includes preamble, "\\titleformat{\\subsubsection}"
-        assert_includes preamble, "\\titleformat{\\paragraph}{\\normalfont\\bfseries}"
+        assert_includes preamble, "\\titleformat{\\paragraph}{\\normalfont\\bfseries\\large}"
         assert_includes preamble, "\\usepackage{indentfirst}"
         assert_includes preamble, "\\setlength{\\parindent}{1\\zw}"
         refute_includes preamble, "\\titleformat{\\paragraph}[runin]"

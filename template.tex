@@ -207,10 +207,30 @@ $else$
   \KOMAoptions{parskip=half}}
 \makeatother
 $endif$
-$if(verbatim-in-note)$
-\usepackage{fancyvrb}
-$endif$
 \usepackage{xcolor}
+\usepackage{fancyvrb}
+\definecolor{JPMDCodeBackground}{HTML}{F2F2F2}
+\definecolor{JPMDCodeBorder}{HTML}{666666}
+\fvset{
+  frame=single,
+  framesep=3mm,
+  framerule=0.4pt,
+  rulecolor=\color{JPMDCodeBorder},
+  fillcolor=\color{JPMDCodeBackground}
+}
+\makeatletter
+\renewcommand{\FancyVerbFormatLine}[1]{%
+  \begingroup
+  \setlength{\fboxsep}{0pt}%
+  \colorbox{JPMDCodeBackground}{%
+    \makebox[\dimexpr\linewidth-6mm-0.8pt\relax][l]{%
+      \strut\FV@ObeyTabs{#1}%
+    }%
+  }%
+  \endgroup
+}
+\makeatother
+\DefineVerbatimEnvironment{verbatim}{Verbatim}{}
 $if(geometry)$
 $if(beamer)$
 \geometry{$for(geometry)$$geometry$$sep$,$endfor$}
