@@ -10,6 +10,9 @@ institute:
 bibliography: ../references/sample-zotero.json
 csl: ../references/word-japanese-note.csl
 suppress-bibliography: true
+toc: true
+toc-title: 目次
+toc-depth: 3
 jpmd:
   preset: academic
   output:

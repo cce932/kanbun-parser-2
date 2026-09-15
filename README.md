@@ -121,6 +121,36 @@ jpmd:
 - **Version 1（`kanbun-parser`）**：請參閱 [`examples/`](examples/) 目錄下除 `text-styles-v2.md` 以外的其他範例文件。
 - **Version 2（`kanbun-parser-2`）**：請參閱 [`examples/text-styles-v2.md`](examples/text-styles-v2.md)。Version 2 後續新增或調整的樣式會集中更新於此。
 
+### 自動目錄與頁碼
+
+在 Markdown 開頭的 YAML frontmatter 加入以下設定，即可在正文前產生目錄，並自動列出各標題所在的頁碼：
+
+```yaml
+---
+title: 文件標題
+toc: true
+toc-title: 目次
+toc-depth: 3
+jpmd:
+  preset: academic
+---
+```
+
+- `toc: true`：啟用目錄；設為 `false` 或省略即可關閉。
+- `toc-title: 目次`：設定目錄標題，也可改為「目錄」。
+- `toc-depth: 3`：收錄 `#`、`##`、`###` 標題；若要包含 `####`，改為 `4`。
+
+這三個欄位放在最外層，與 `title`、`jpmd` 同級。若文件已有 frontmatter，將欄位加入原有區塊即可。正文須使用 Markdown 標題語法，才能自動收錄到目錄。
+
+若還需要章節編號，可在同一個 frontmatter 的最外層加入：
+
+```yaml
+numbersections: true
+secnumdepth: 3
+```
+
+章節編號與目錄頁碼是分開的設定；不開啟章節編號，目錄仍會顯示頁碼。
+
 ## 專案內安裝（macOS / Linux）
 
 本專案可將 Ruby、Pandoc、LuaLaTeX、TeX 套件、Ruby gems 和快取全部安裝在 `.local/`，不使用 sudo、不修改全域 PATH，也不會使用已安裝在系統上的同名工具。
