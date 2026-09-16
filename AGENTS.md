@@ -39,6 +39,7 @@ required_tools:
     - selnolig
     - lua-ul
     - luacolor
+    - fvextra
 
 font_rules:
   linux:

@@ -17,5 +17,5 @@ JPMD_TEXLIVE_REPOSITORY="${JPMD_TEXLIVE_REPOSITORIES[0]}"
 # collections wholesale while covering the packages used by this project.
 JPMD_TEX_PACKAGES=(
   jlreq luatexja titlesec haranoaji lualatex-math selnolig kanbun lua-ul luacolor
-  fancyhdr caption footnotehyper xurl
+  fancyhdr caption footnotehyper xurl fvextra
 )

@@ -566,8 +566,8 @@ class JPMDCompilerTest < Minitest::Test
 
     assert_includes template, "\\definecolor{JPMDCodeBackground}{HTML}{F2F2F2}"
     assert_includes template, "\\definecolor{JPMDCodeBorder}{HTML}{666666}"
-    assert_match(/\\fvset\{.*?frame=single.*?rulecolor=\\color\{JPMDCodeBorder\}.*?fillcolor=\\color\{JPMDCodeBackground\}.*?\}/m, template)
-    assert_match(/\\renewcommand\{\\FancyVerbFormatLine\}.*?\\colorbox\{JPMDCodeBackground\}/m, template)
+    assert_includes template, "\\usepackage{fvextra}"
+    assert_match(/\\fvset\{.*?frame=single.*?rulecolor=\\color\{JPMDCodeBorder\}.*?bgcolor=JPMDCodeBackground.*?bgcolorpadding=3mm.*?breaklines=true.*?breakanywhere=true.*?\}/m, template)
     assert_includes template, "\\DefineVerbatimEnvironment{verbatim}{Verbatim}{}"
   end
 
@@ -598,6 +598,8 @@ class JPMDCompilerTest < Minitest::Test
 
       compiler.stub(:resolve_font_setup, { latin: "\\setmainfont{Times New Roman}", japanese: "\\setmainjfont{MS Mincho}" }) do
         preamble = compiler.send(:render_preamble)
+        assert_match(/\\setmonofont\[.*?BoldFont=\{Harano Aji Gothic Bold\}.*?\]\{Harano Aji Gothic Medium\}/m, preamble)
+        assert_match(/\\setmonojfont\[.*?BoldFont=\{Harano Aji Gothic Bold\}.*?\]\{Harano Aji Gothic Medium\}/m, preamble)
         assert_includes preamble, "\\usepackage["
         assert_includes preamble, "]{kanbun}"
         assert_includes preamble, "unit=1\\zw"

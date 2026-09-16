@@ -208,28 +208,19 @@ $else$
 \makeatother
 $endif$
 \usepackage{xcolor}
-\usepackage{fancyvrb}
+\usepackage{fvextra}
 \definecolor{JPMDCodeBackground}{HTML}{F2F2F2}
 \definecolor{JPMDCodeBorder}{HTML}{666666}
 \fvset{
   frame=single,
-  framesep=3mm,
   framerule=0.4pt,
   rulecolor=\color{JPMDCodeBorder},
-  fillcolor=\color{JPMDCodeBackground}
+  bgcolor=JPMDCodeBackground,
+  bgcolorpadding=3mm,
+  breaklines=true,
+  breakanywhere=true,
+  breaksymbolleft={}
 }
-\makeatletter
-\renewcommand{\FancyVerbFormatLine}[1]{%
-  \begingroup
-  \setlength{\fboxsep}{0pt}%
-  \colorbox{JPMDCodeBackground}{%
-    \makebox[\dimexpr\linewidth-6mm-0.8pt\relax][l]{%
-      \strut\FV@ObeyTabs{#1}%
-    }%
-  }%
-  \endgroup
-}
-\makeatother
 \DefineVerbatimEnvironment{verbatim}{Verbatim}{}
 $if(geometry)$
 $if(beamer)$
