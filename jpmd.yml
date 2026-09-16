@@ -14,7 +14,7 @@ presets:
       font:
         body_size: 12pt
       paragraph:
-        first_line_indent: 1zw
+        first_line_indent: 0pt
     kanbun:
       side:
         gap: 0.10zw

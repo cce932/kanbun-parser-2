@@ -17,6 +17,7 @@ class JPMDConfigTest < Minitest::Test
       assert_equal 35, derived.fetch("characters_per_line")
       assert_equal 30, derived.fetch("lines_per_page")
       assert_equal "12pt", derived.fetch("body_size")
+      assert_equal "0pt", derived.fetch("first_line_indent")
     end
   end
 
@@ -138,7 +139,7 @@ class JPMDConfigTest < Minitest::Test
     frontmatter = {
       "layout" => {
         "paragraph" => {
-          "first_line_indent" => "0pt"
+          "first_line_indent" => "1zw"
         }
       }
     }
@@ -149,7 +150,7 @@ class JPMDConfigTest < Minitest::Test
         config_path: config_path
       ).resolve
 
-      assert_equal "0pt", resolved.fetch("derived").fetch("first_line_indent")
+      assert_equal "1zw", resolved.fetch("derived").fetch("first_line_indent")
     end
   end
 

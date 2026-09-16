@@ -26,7 +26,7 @@ module JPMD
             "body_size" => "12pt"
           },
           "paragraph" => {
-            "first_line_indent" => "1zw"
+            "first_line_indent" => "0pt"
           }
         },
         "kanbun" => {
@@ -80,7 +80,7 @@ module JPMD
             "body_size" => "14pt"
           },
           "paragraph" => {
-            "first_line_indent" => "1zw"
+            "first_line_indent" => "0pt"
           }
         },
         "kanbun" => {
