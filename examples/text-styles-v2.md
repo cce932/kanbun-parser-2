@@ -31,6 +31,14 @@ jpmd:
 ★ 編集者より：
 ```
 
+```
+自動折り返しの確認：
+
+- 日本語：これは、コードブロック内の文字列が表示領域より長くなった場合に、自動的に次の行へ折り返されることを確認するためのサンプルテキストです。
+- 中文：這是一段用來確認程式碼區塊中的長字串超出可顯示寬度時，會自動換到下一行繼續顯示的範例文字。
+- URL：https://example.org/archive/documents/sample-collection/very-long-directory-name/automatic-line-wrapping-example.html?language=ja&display=full
+```
+
 #### V1: 和歌の詞書／引用元の右寄せ
 
 次に、詞書を伴う和歌を引用し、その出典を右寄せで示す例を掲げる。
