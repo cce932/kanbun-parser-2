@@ -37,5 +37,30 @@
         ]
       ]
     }
+  },
+  {
+    "id": "sakuma1922",
+    "type": "book",
+    "author": [
+      {
+        "literal": "佐久間鼎"
+      }
+    ],
+    "title": "國語の發音とアクセント 訂正増補",
+    "publisher": "同文館",
+    "issued": {
+      "date-parts": [
+        [
+          1922
+        ]
+      ]
+    },
+    "original-date": {
+      "date-parts": [
+        [
+          1919
+        ]
+      ]
+    }
   }
 ]

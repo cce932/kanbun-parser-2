@@ -63,6 +63,16 @@
   <macro name="issued-date">
     <date variable="issued"/>
   </macro>
+  <macro name="issued-year">
+    <date variable="issued">
+      <date-part name="year"/>
+    </date>
+  </macro>
+  <macro name="original-year">
+    <date variable="original-date" prefix=" [初版 " suffix=" 年]">
+      <date-part name="year"/>
+    </date>
+  </macro>
   <macro name="journal-publication">
     <group prefix="（" suffix="）" delimiter="、">
       <group delimiter="">
@@ -114,6 +124,16 @@
             <text value="。"/>
           </group>
         </if>
+        <else-if type="book collection" match="any">
+          <group delimiter="">
+            <text macro="contributors"/>
+            <text macro="issued-year" prefix="(" suffix=")"/>
+            <text macro="title"/>
+            <text variable="publisher"/>
+            <text macro="original-year"/>
+            <text macro="locator"/>
+          </group>
+        </else-if>
         <else>
           <group delimiter="">
             <text macro="contributors"/>
@@ -136,6 +156,15 @@
             <text value="。"/>
           </group>
         </if>
+        <else-if type="book collection" match="any">
+          <group delimiter="">
+            <text macro="contributors"/>
+            <text macro="issued-year" prefix="(" suffix=")"/>
+            <text macro="title"/>
+            <text variable="publisher"/>
+            <text macro="original-year"/>
+          </group>
+        </else-if>
         <else>
           <group delimiter="">
             <text macro="contributors"/>

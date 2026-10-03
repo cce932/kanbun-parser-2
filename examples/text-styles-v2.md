@@ -1,5 +1,8 @@
 ---
 title: 文章スタイル
+bibliography: ../references/sample-zotero.json
+csl: ../references/word-japanese-note.csl
+suppress-bibliography: true
 jpmd:
   preset: academic
   layout:
@@ -62,3 +65,7 @@ jpmd:
 \vspace{\baselineskip}
 
 次の段落である。一行分の空きが、前の段落との間に入っていることを確認できる。
+
+#### 書籍引用：初版年の併記
+
+書籍の `issued.date-parts` を参照した版の年、`original-date.date-parts` を初版の年として登録すると、引用には「佐久間鼎(1922)『國語の發音とアクセント 訂正増補』同文館 [初版 1919 年]」の形で表示される[@sakuma1922]。
