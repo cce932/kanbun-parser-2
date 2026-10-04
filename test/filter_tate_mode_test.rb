@@ -107,6 +107,32 @@ class FilterTateModeTest < Minitest::Test
     end
   end
 
+  def test_citation_inside_manual_footnote_uses_fullwidth_parentheses
+    Dir.mktmpdir("jpmd-filter-") do |dir|
+      input_path = File.join(dir, "sample.md")
+      File.write(input_path, <<~MARKDOWN, mode: "w:utf-8")
+        本文。^[説明[@sakuma1922, pp. 108]]
+
+        別の本文[@sakuma1922]。
+      MARKDOWN
+
+      stdout, status = Open3.capture2(
+        "pandoc",
+        input_path,
+        "-f", "markdown",
+        "--citeproc",
+        "--bibliography", File.expand_path("../references/sample-zotero.json", __dir__),
+        "--csl", File.expand_path("../references/word-japanese-note.csl", __dir__),
+        "--lua-filter", File.expand_path("../filter.lua", __dir__),
+        "-t", "latex"
+      )
+
+      assert status.success?, stdout
+      assert_match(/\\footnote\{説明\s+（佐久間鼎（1922）.*108頁）\}/m, stdout)
+      assert_match(/別の本文\\footnote\{佐久間鼎（1922）.*\}。/m, stdout)
+    end
+  end
+
   def test_tables_render_with_inner_rules_only
     Dir.mktmpdir("jpmd-filter-") do |dir|
       input_path = File.join(dir, "sample.md")

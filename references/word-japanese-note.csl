@@ -127,7 +127,7 @@
         <else-if type="book collection" match="any">
           <group delimiter="">
             <text macro="contributors"/>
-            <text macro="issued-year" prefix="(" suffix=")"/>
+            <text macro="issued-year" prefix="（" suffix="）"/>
             <text macro="title"/>
             <text variable="publisher"/>
             <text macro="original-year"/>
@@ -159,7 +159,7 @@
         <else-if type="book collection" match="any">
           <group delimiter="">
             <text macro="contributors"/>
-            <text macro="issued-year" prefix="(" suffix=")"/>
+            <text macro="issued-year" prefix="（" suffix="）"/>
             <text macro="title"/>
             <text variable="publisher"/>
             <text macro="original-year"/>

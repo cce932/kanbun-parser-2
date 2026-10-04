@@ -244,6 +244,35 @@ function Cite(cite)
   return nil
 end
 
+local function fullwidth_note_citation(cite)
+  local first = 1
+  local last = #cite.content
+
+  while first <= last and cite.content[first].t == "Space" do
+    first = first + 1
+  end
+  while last >= first and cite.content[last].t == "Space" do
+    last = last - 1
+  end
+
+  if first < last
+    and cite.content[first].t == "Str" and cite.content[first].text == "("
+    and cite.content[last].t == "Str" and cite.content[last].text == ")" then
+    cite.content[first] = pandoc.Str("（")
+    cite.content[last] = pandoc.Str("）")
+    return cite
+  end
+
+  return nil
+end
+
+function Note(note)
+  for index, block in ipairs(note.content) do
+    note.content[index] = pandoc.walk_block(block, { Cite = fullwidth_note_citation })
+  end
+  return note
+end
+
 local function latex_table_output()
   return FORMAT == "latex" or FORMAT == "beamer"
 end
@@ -473,6 +502,7 @@ return {
     HorizontalRule = HorizontalRule,
     SoftBreak = SoftBreak,
     Cite = Cite,
+    Note = Note,
     Emph = Emph,
     Span = Span
   }
