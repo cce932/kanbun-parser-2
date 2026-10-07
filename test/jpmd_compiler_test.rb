@@ -234,7 +234,23 @@ class JPMDCompilerTest < Minitest::Test
       File.write(config_path, "default_preset: academic\n", mode: "w:utf-8")
 
       compiler = compiler_for(input_path, config_path)
-      assert_equal "markdown+bracketed_spans-yaml_metadata_block", compiler.send(:pandoc_input_format)
+      assert_equal "markdown+bracketed_spans-yaml_metadata_block-superscript", compiler.send(:pandoc_input_format)
+    end
+  end
+
+  def test_pandoc_input_format_keeps_two_inline_notes_in_one_paragraph
+    with_temp_markdown("本文^[出典[@sampleWebpage] ]。aaaa^[幽山と芭蕉との不和は、檀上正孝（1965）「芭蕉論序説-延宝期の桃青に関する考察-」『国語教育論考二』（昭和40年5月）に詳しいが、本論では割愛する。]\n") do |input_path, config_path|
+      compiler = compiler_for(input_path, config_path)
+      stdout, status = Open3.capture2(
+        "pandoc", input_path,
+        "-f", compiler.send(:pandoc_input_format),
+        "-t", "latex"
+      )
+
+      assert status.success?, stdout
+      assert_equal 2, stdout.scan("\\footnote{").length
+      assert_match(/\\footnote\{幽山と芭蕉との不和は、檀上正孝（1965）.*本論では割愛する。\}/m, stdout)
+      refute_includes stdout, "\\textsuperscript{"
     end
   end
 

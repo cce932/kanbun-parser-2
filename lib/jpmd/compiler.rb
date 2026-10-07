@@ -517,7 +517,8 @@ module JPMD
     end
 
     def pandoc_input_format
-      "markdown+bracketed_spans-yaml_metadata_block"
+      # Pandoc treats two inline notes (^[...]) in one paragraph as ^...^ superscript.
+      "markdown+bracketed_spans-yaml_metadata_block-superscript"
     end
 
     def run_lualatex(tex_path, workdir)
