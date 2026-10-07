@@ -50,15 +50,11 @@
       </else-if>
     </choose>
   </macro>
-  <macro name="year">
-    <choose>
-      <if variable="issued">
-        <date variable="issued" suffix="閲"/>
-      </if>
-      <else-if variable="accessed">
-        <date variable="accessed" suffix="閲"/>
-      </else-if>
-    </choose>
+  <macro name="webpage-issued">
+    <date variable="issued" suffix="刊"/>
+  </macro>
+  <macro name="webpage-accessed">
+    <date variable="accessed" suffix="閲"/>
   </macro>
   <macro name="issued-date">
     <date variable="issued"/>
@@ -90,7 +86,8 @@
       <if type="webpage">
         <group prefix="（" suffix="）" delimiter="、">
           <text macro="website"/>
-          <text macro="year"/>
+          <text macro="webpage-issued"/>
+          <text macro="webpage-accessed"/>
         </group>
       </if>
       <else-if type="article-journal">

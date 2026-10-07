@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "open3"
 require "rexml/document"
 require "rexml/xpath"
 require_relative "test_helper"
@@ -37,26 +38,46 @@ class CSLStyleTest < Minitest::Test
     assert_equal "」", paper_title.attributes["suffix"]
   end
 
-  def test_webpage_publication_uses_website_and_year
+  def test_webpage_publication_uses_website_and_both_dates
     style = REXML::Document.new(File.read(style_path, mode: "r:utf-8"))
     webpage_group = REXML::XPath.first(style, "//*[local-name()='macro' and @name='publication']/*[local-name()='choose']/*[local-name()='if' and @type='webpage']//*[local-name()='group']")
     website_text = REXML::XPath.first(webpage_group, "./*[local-name()='text' and @macro='website']")
-    year_text = REXML::XPath.first(webpage_group, "./*[local-name()='text' and @macro='year']")
+    issued_text = REXML::XPath.first(webpage_group, "./*[local-name()='text' and @macro='webpage-issued']")
+    accessed_text = REXML::XPath.first(webpage_group, "./*[local-name()='text' and @macro='webpage-accessed']")
 
     assert_equal "（", webpage_group.attributes["prefix"]
     assert_equal "）", webpage_group.attributes["suffix"]
     assert_equal "、", webpage_group.attributes["delimiter"]
     refute_nil website_text
-    refute_nil year_text
+    refute_nil issued_text
+    refute_nil accessed_text
   end
 
-  def test_webpage_year_adds_access_marker
-    style = REXML::Document.new(File.read(style_path, mode: "r:utf-8"))
-    issued_date = REXML::XPath.first(style, "//*[local-name()='macro' and @name='year']//*[local-name()='date' and @variable='issued']")
-    accessed_date = REXML::XPath.first(style, "//*[local-name()='macro' and @name='year']//*[local-name()='date' and @variable='accessed']")
+  def test_webpage_issued_date_is_publication_and_accessed_date_is_viewing
+    Dir.mktmpdir("jpmd-csl-") do |dir|
+      input_path = File.join(dir, "sample.md")
+      bibliography_path = File.join(dir, "refs.json")
+      File.write(input_path, "本文[@web]。\n", mode: "w:utf-8")
+      File.write(bibliography_path, <<~JSON, mode: "w:utf-8")
+        [{
+          "id": "web",
+          "type": "webpage",
+          "title": "漢文資料の読み方（架空のページ）",
+          "container-title": "資料案内サイト（架空）",
+          "issued": { "literal": "二〇一四年十二月" },
+          "accessed": { "literal": "二〇二六年十月" }
+        }]
+      JSON
 
-    assert_equal "閲", issued_date.attributes["suffix"]
-    assert_equal "閲", accessed_date.attributes["suffix"]
+      stdout, status = Open3.capture2(
+        "pandoc", input_path, "-f", "markdown", "-t", "latex",
+        "--citeproc", "--bibliography", bibliography_path, "--csl", style_path
+      )
+
+      assert status.success?, stdout
+      assert_includes stdout, "二〇一四年十二月刊、二〇二六年十月閲"
+      refute_includes stdout, "二〇一四年十二月閲"
+    end
   end
 
   def test_article_journal_publication_uses_journal_volume_issue_and_date
