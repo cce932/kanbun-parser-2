@@ -62,5 +62,60 @@
         ]
       ]
     }
+  },
+  {
+    "id": "sampleWebpage",
+    "type": "webpage",
+    "title": "漢文資料の読み方（架空のページ）",
+    "container-title": "資料案内サイト（架空）",
+    "URL": "https://example.org/kanbun",
+    "issued": {
+      "date-parts": [
+        [
+          2014,
+          12
+        ]
+      ]
+    },
+    "accessed": {
+      "date-parts": [
+        [
+          2026,
+          10,
+          6
+        ]
+      ]
+    }
+  },
+  {
+    "id": "kato2014",
+    "type": "webpage",
+    "editor": [
+      {
+        "literal": "加藤周一"
+      }
+    ],
+    "title": "世界大百科事典（改訂新版）",
+    "publisher": "平凡社",
+    "number-of-volumes": "34",
+    "issued": {
+      "date-parts": [
+        [
+          2014,
+          12
+        ]
+      ]
+    },
+    "accessed": {
+      "date-parts": [
+        [
+          2026,
+          10,
+          6
+        ]
+      ]
+    },
+    "URL": "https://japanknowledge.com/contents/sekaidaihyakka/index.html",
+    "note": "加藤周一は編集長。改訂新版は2007年9月刊。書籍版第6刷は2014年12月1日刊。全34巻のうちジャパンナレッジ搭載は31巻。"
   }
 ]
